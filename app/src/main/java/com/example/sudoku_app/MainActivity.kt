@@ -27,7 +27,7 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun App() {
     val navController = rememberNavController()
-    NavHost(navController = navController, startDestination = "home") {
+    NavHost(navController = navController, startDestination = "game") {
         composable(route = "home") {
             HomeScreen(onGameStart = {
                 navController.navigate("game")

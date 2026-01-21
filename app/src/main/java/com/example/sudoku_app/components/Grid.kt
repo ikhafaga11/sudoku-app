@@ -1,6 +1,8 @@
 package com.example.sudoku_app.components
 
 import androidx.compose.foundation.Canvas
+import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -16,20 +18,16 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.example.sudoku_app.models.SudokuBoard
 
 @Composable
-fun Grid(modifier: Modifier = Modifier) {
-
-    // Just for example
-    val numbers: List<Int> = listOf(1, 2, 3, 4, 5, 6, 7, 8, 9)
-    val board = buildList {
-        repeat(9)
-        {
-            addAll(numbers)
-        }
-    }
-
-
+fun Grid(
+    board: SudokuBoard,
+    selectedRow: Int,
+    selectedCol: Int,
+    onCellClick: (Int, Int) -> Unit,
+    modifier: Modifier = Modifier
+) {
     Column(modifier = modifier.fillMaxSize()
         , verticalArrangement = Arrangement.Center) {
         Box(
@@ -78,14 +76,26 @@ fun Grid(modifier: Modifier = Modifier) {
                 verticalArrangement = Arrangement.Center,
                 columns = GridCells.Fixed(9)
             ) {
-                board.forEachIndexed { index, int ->
-                    items(1) {
-                        Box(
-                            modifier = modifier.aspectRatio(1f),
-                            contentAlignment = Alignment.Center
-                        ) {
-                            Text("${index + 1}")
-                        }
+                items(81) { index ->
+                    val row = index / 9
+                    val col = index % 9
+                    val cell = board.cells[row][col]
+
+                    Box(
+                        modifier = modifier
+                            .aspectRatio(1f)
+                            .background(
+                                if (row == selectedRow && col == selectedCol)
+                                    Color(0xFFCCE5FF)
+                                else Color.Transparent
+                            )
+                            .clickable { onCellClick(row, col) },
+                        contentAlignment = Alignment.Center
+                    ) {
+                        Text(
+                            text = cell.value?.toString() ?: "",
+                            color = if (cell.isFixed) Color.Black else Color.Blue
+                        )
                     }
                 }
             }
@@ -96,5 +106,11 @@ fun Grid(modifier: Modifier = Modifier) {
 @Preview(showSystemUi = true)
 @Composable
 fun PreviewGrid() {
-    Grid()
+    val board = SudokuBoard()
+    Grid(
+        board = board,
+        selectedRow = -1,
+        selectedCol = -1,
+        onCellClick = { _, _ -> }
+    )
 }
