@@ -1,5 +1,16 @@
 package com.example.sudoku_app.models
 
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.width
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
+import com.example.sudoku_app.viewmodel.GameViewModel
+
 object SudokuGenerator {
     fun fillBoard(board: SudokuBoard): Boolean {
         for (row in 0 until 9) {
@@ -62,4 +73,28 @@ object SudokuGenerator {
         val difficulty = if (canSolveWithNakedSingles(puzzle)) "Easy" else "Harder"
         return puzzle to difficulty
     }
+}
+
+@Composable
+fun SudokuBoardPreview(board: SudokuBoard) {
+    Column {
+        board.cells.forEach { row ->
+            Row {
+                row.forEach { cell ->
+                    Text(
+                        text = cell.value?.toString() ?: ".",
+                        modifier = Modifier.width(20.dp)
+                    )
+                }
+            }
+        }
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun PreviewBoardWithViewModel() {
+    val viewModel = remember { GameViewModel() }
+    viewModel.startNewGame()
+    SudokuBoardPreview(board = viewModel.board.value)
 }

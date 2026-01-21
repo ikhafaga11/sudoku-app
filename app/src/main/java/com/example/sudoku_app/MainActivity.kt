@@ -8,8 +8,8 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.example.sudoku_app.components.GameScreen
-import com.example.sudoku_app.components.HomeScreen
+import com.example.sudoku_app.screens.GameScreen
+import com.example.sudoku_app.screens.HomeScreen
 import com.example.sudoku_app.ui.theme.SudokuappTheme
 
 class MainActivity : ComponentActivity() {
