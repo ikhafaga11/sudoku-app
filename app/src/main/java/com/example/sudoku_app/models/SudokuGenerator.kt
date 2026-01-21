@@ -30,7 +30,7 @@ object SudokuGenerator {
         }
         return true
     }
-    fun nakedSingleStep(board: SudokuBoard): Boolean {
+    fun singleStep(board: SudokuBoard): Boolean {
         for (row in 0 until 9) {
             for (col in 0 until 9) {
                 val cell = board.cells[row][col]
@@ -46,10 +46,10 @@ object SudokuGenerator {
         return false
     }
 
-    fun canSolveWithNakedSingles(board: SudokuBoard): Boolean {
+    fun canSolveWithSingles(board: SudokuBoard): Boolean {
         val temp = board.copy()
         while (true) {
-            val progress = nakedSingleStep(temp)
+            val progress = singleStep(temp)
             if (!progress) break
         }
         return temp.isComplete()
@@ -70,7 +70,7 @@ object SudokuGenerator {
             puzzle.cells[r][c].isFixed = puzzle.cells[r][c].value != null
         }
 
-        val difficulty = if (canSolveWithNakedSingles(puzzle)) "Easy" else "Harder"
+        val difficulty = if (canSolveWithSingles(puzzle)) "Easy" else "Harder"
         return puzzle to difficulty
     }
 }
