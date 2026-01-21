@@ -1,6 +1,7 @@
 package com.example.sudoku_app.components
 
 import androidx.compose.foundation.Canvas
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -30,8 +31,7 @@ fun Grid(modifier: Modifier = Modifier) {
     }
 
 
-    Column(modifier = modifier.fillMaxSize()
-        , verticalArrangement = Arrangement.Center) {
+    Column(modifier = modifier.background(Color.White)) {
         Box(
             Modifier
                 .aspectRatio(1f)
@@ -44,9 +44,9 @@ fun Grid(modifier: Modifier = Modifier) {
                 val canvasHeight = size.height
 
                 // draw vertical Lines
-                for (i in 1..9) {
+                for (i in 0..9) {
                     val x = i * cellSize
-                    val strokeWidth: Float = if (i % 3 == 0 && i != 9) 4.dp.toPx() else 1.dp.toPx()
+                    val strokeWidth: Float = if (i % 3 == 0) 4.dp.toPx() else 1.dp.toPx()
 
 
                     drawLine(
@@ -58,9 +58,9 @@ fun Grid(modifier: Modifier = Modifier) {
                     )
                 }
 
-                for (i in 1..9) {
+                for (i in 0..9) {
                     val y = i * cellSize
-                    val strokeWidth = if (i % 3 == 0 && i != 9) 4.dp.toPx() else 1.dp.toPx()
+                    val strokeWidth = if (i % 3 == 0) 4.dp.toPx() else 1.dp.toPx()
 
 
                     drawLine(
@@ -93,7 +93,7 @@ fun Grid(modifier: Modifier = Modifier) {
     }
 }
 
-@Preview(showSystemUi = true)
+@Preview(showBackground = true)
 @Composable
 fun PreviewGrid() {
     Grid()
