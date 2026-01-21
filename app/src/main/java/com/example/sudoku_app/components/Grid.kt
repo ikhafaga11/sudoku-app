@@ -79,7 +79,6 @@ fun Grid(modifier: Modifier = Modifier) {
                 columns = GridCells.Fixed(9)
             ) {
                 board.forEachIndexed { index, int ->
-                    {}
                     items(1) {
                         Box(
                             modifier = modifier.aspectRatio(1f),
