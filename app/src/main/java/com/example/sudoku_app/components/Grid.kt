@@ -38,6 +38,7 @@ fun Grid(modifier: Modifier = Modifier, sudokuViewModel: SudokuViewModel = viewM
     val selectedIndex = state.selectedIndex
     val columnIndices = state.columnIndexList
     val rowIndices = state.rowIndexList
+    val squareIndices = state.squareIndexList
 
 
     Column(modifier = modifier.background(Color.White)) {
@@ -56,6 +57,7 @@ fun Grid(modifier: Modifier = Modifier, sudokuViewModel: SudokuViewModel = viewM
                     val isSelectedCell = index == selectedIndex  // This specific cell is selected
                     val isInColumn = index in columnIndices
                     val isInRow = index in rowIndices
+                    val isInSquare = index in squareIndices
 
                     items(1) {
                         Box(
@@ -66,6 +68,7 @@ fun Grid(modifier: Modifier = Modifier, sudokuViewModel: SudokuViewModel = viewM
                                         isSelectedCell -> Color.Black
                                         isInColumn -> Color.LightGray
                                         isInRow -> Color.LightGray
+                                        isInSquare -> Color.LightGray
                                         else -> Color.Transparent
 
                                     }
