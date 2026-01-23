@@ -10,7 +10,6 @@ data class GameUIState(
     var columnIndexList: List<Int> = emptyList(),
     val squareIndexList: List<Int> = emptyList(),
     val rowIndexList: List<Int> = emptyList(),
-
     )
 
 class SudokuViewModel : ViewModel() {
