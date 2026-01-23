@@ -24,10 +24,6 @@ class SudokuViewModel : ViewModel() {
     private val _uiState = MutableStateFlow(GameUIState())
     val uiState: StateFlow<GameUIState> = _uiState.asStateFlow()
 
-    init {
-        startNewGame()
-    }
-
     fun setDifficulty(newDifficulty: Int) {
         val clampedDifficulty = newDifficulty.coerceIn(0, 100)
         _uiState.value = _uiState.value.copy(
