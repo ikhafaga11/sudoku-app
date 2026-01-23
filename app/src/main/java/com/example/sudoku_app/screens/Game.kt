@@ -13,12 +13,17 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.sudoku_app.components.Grid
 import com.example.sudoku_app.components.NumberPad
+import com.example.sudoku_app.viewmodel.SudokuViewModel
 
 
 @Composable
-fun GameScreen(modifier: Modifier = Modifier) {
+fun GameScreen(
+    modifier: Modifier = Modifier,
+    sudokuViewModel: SudokuViewModel = viewModel()
+) {
     Column(
         modifier = modifier
             .fillMaxSize()
@@ -32,7 +37,7 @@ fun GameScreen(modifier: Modifier = Modifier) {
             horizontalArrangement = Arrangement.Center,
             verticalAlignment = Alignment.CenterVertically
         ) {
-            Grid()
+            Grid(sudokuViewModel = sudokuViewModel)
         }
 
         HorizontalDivider(thickness = 2.dp)
@@ -40,7 +45,7 @@ fun GameScreen(modifier: Modifier = Modifier) {
         Row(modifier = modifier
             .weight(1.5f)
             .padding(top = 16.dp)) {
-            NumberPad()
+            NumberPad(sudokuViewModel = sudokuViewModel)
         }
     }
 }
