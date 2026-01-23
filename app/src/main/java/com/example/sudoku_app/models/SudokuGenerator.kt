@@ -87,10 +87,16 @@ object SudokuGenerator {
         var attempts = 0
         var bestPuzzle: SudokuBoard? = null
         var bestScore = Int.MAX_VALUE
+        val solution = List(9) { row ->
+            List(9) {col ->
+                fullBoard.cells[row][col].value!!
+            }
+        }
         while (attempts < maxAttempts) {
             val clues = (targetClues - clueVariance..targetClues + clueVariance).random()
                 .coerceIn(22, 45)
             val puzzle = createPuzzleWithClues(fullBoard, clues)
+            puzzle.solution = solution
             val score = evaluatePuzzleDifficulty(puzzle, clampedDifficulty, complexityThreshold, minPossibilities)
             if (score < bestScore) {
                 bestScore = score
@@ -101,7 +107,9 @@ object SudokuGenerator {
             }
             attempts++
         }
-        return (bestPuzzle ?: createPuzzleWithClues(fullBoard, targetClues)) to clampedDifficulty
+        val finalPuzzle = bestPuzzle ?: createPuzzleWithClues(fullBoard, targetClues)
+        finalPuzzle.solution = solution
+        return finalPuzzle to clampedDifficulty
     } // generates the puzzle with specified difficulty (0-100) - generates multiple attempts and selects the best one
 
     fun createPuzzleWithClues(fullBoard: SudokuBoard, clues: Int): SudokuBoard {

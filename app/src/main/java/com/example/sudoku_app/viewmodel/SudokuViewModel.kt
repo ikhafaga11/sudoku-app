@@ -61,6 +61,10 @@ class SudokuViewModel : ViewModel() {
         val cell = uiState.value.board.cells[row][col]
         if(!cell.isFixed) {
             cell.value = number
+            val solution = _uiState.value.board.solution
+            if(solution != null) {
+                cell.isCorrect = (number == solution[row][col])
+            }
             _uiState.value = _uiState.value.copy(
                 board = _uiState.value.board
             )
@@ -75,6 +79,7 @@ class SudokuViewModel : ViewModel() {
             val cell = _uiState.value.board.cells[row][col]
             if(!cell.isFixed) {
                 cell.value = null
+                cell.isCorrect = null
                 _uiState.value = _uiState.value.copy(
                     board = _uiState.value.board
                 )

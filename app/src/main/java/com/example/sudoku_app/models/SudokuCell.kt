@@ -4,5 +4,6 @@ data class SudokuCell(
     val row: Int,
     val col: Int,
     var value: Int? = null,
-    var isFixed: Boolean = false
+    var isFixed: Boolean = false,
+    var isCorrect: Boolean? = null
 )
