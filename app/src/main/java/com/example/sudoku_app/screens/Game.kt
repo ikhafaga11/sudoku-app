@@ -22,6 +22,9 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.sudoku_app.components.Grid
 import com.example.sudoku_app.components.NumberPad
 import com.example.sudoku_app.viewmodel.SudokuViewModel
+import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.Button
+import androidx.compose.material3.TextButton
 
 
 @Composable
@@ -30,6 +33,26 @@ fun GameScreen(
     sudokuViewModel: SudokuViewModel = viewModel()
 ) {
     val state by sudokuViewModel.uiState.collectAsState()
+    if (state.isComplete) {
+        AlertDialog(
+            onDismissRequest = { /* Block dismiss if you want */ },
+            title = {
+                Text(text = "🎉 Puzzle Complete!")
+            },
+            text = {
+                Text(
+                    text = "You solved the Sudoku in ${
+                        sudokuViewModel.formatTime(state.elapsedTime)
+                    }"
+                )
+            },
+            confirmButton = {
+                Button(onClick = { sudokuViewModel.startNewGame() }) {
+                    Text("New Game")
+                }
+            }
+        )
+    }
     Column(
         modifier = modifier
             .fillMaxSize()
