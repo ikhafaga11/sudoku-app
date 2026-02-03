@@ -37,7 +37,10 @@ fun App() {
             }, sudokuViewModel = sudokuViewModel)
         }
         composable(route = "game") {
-            GameScreen(sudokuViewModel = sudokuViewModel)
+            GameScreen(
+                navController = navController,
+                sudokuViewModel = sudokuViewModel
+            )
         }
     }
 }

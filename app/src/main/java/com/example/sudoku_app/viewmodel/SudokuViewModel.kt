@@ -67,6 +67,27 @@ class SudokuViewModel : ViewModel() {
         startNewGame()
     } // shortcut function so we can set a new difficulty immediately and generate a new puzzle
 
+    fun autoCompletePuzzle() {
+        val board = _uiState.value.board
+        val solution = board.solution ?: return
+        for (row in 0 until 9) {
+            for (col in 0 until 9) {
+                val cell = board.cells[row][col]
+                if (!cell.isFixed) {
+                    cell.value = solution[row][col]
+                    cell.isCorrect = true
+                }
+            }
+        }
+        val newBoard = board.copy()
+        stopTimer()
+        _uiState.value = _uiState.value.copy(
+            board = newBoard,
+            isComplete = true
+        )
+    }
+
+
     fun enterNumber(index: Int, number: Int) {
         val row = index / 9
         val col = index % 9
@@ -217,5 +238,4 @@ class SudokuViewModel : ViewModel() {
             )
         }
     }
-
 }

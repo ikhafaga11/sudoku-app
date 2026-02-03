@@ -37,7 +37,7 @@ fun GameScreen(
     val state by sudokuViewModel.uiState.collectAsState()
     if (state.isComplete) {
         AlertDialog(
-            onDismissRequest = { /* Block dismiss if you want */ },
+            onDismissRequest = {},
             title = {
                 Text(text = "🎉 Puzzle Complete!")
             },
@@ -78,12 +78,19 @@ fun GameScreen(
                 )
             }
 
-            // Timer
-            Text(
-                text = sudokuViewModel.formatTime(state.elapsedTime),
-                fontSize = 24.sp,
-                fontWeight = FontWeight.Bold
-            )
+            Column(horizontalAlignment = Alignment.End) {
+                Text(
+                    text = sudokuViewModel.formatTime(state.elapsedTime),
+                    fontSize = 24.sp,
+                    fontWeight = FontWeight.Bold
+                )
+                Button(
+                    onClick = { sudokuViewModel.autoCompletePuzzle() },
+                    modifier = Modifier.padding(top = 8.dp)
+                ) {
+                    Text("Auto Complete (debugging)")
+                }
+            }
         }
         Row(
             modifier = modifier
