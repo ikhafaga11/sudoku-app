@@ -100,7 +100,7 @@ fun Grid(modifier: Modifier = Modifier, sudokuViewModel: SudokuViewModel = viewM
                                 ) {
                                     Text(
                                         text = cell.notes.sorted().joinToString(" "),
-                                        color = Color(0xFFBDBDBD), // Light grey
+                                        color = Color(0xFF616161),
                                         fontSize = 10.sp,
                                         fontWeight = FontWeight.Normal
                                     )
