@@ -55,7 +55,7 @@ fun Grid(modifier: Modifier = Modifier, sudokuViewModel: SudokuViewModel = viewM
                 columns = GridCells.Fixed(9)
             ) {
                 flattenedBoard.forEachIndexed { index, cell ->
-                    val isSelectedCell = index == selectedIndex  // This specific cell is selected
+                    val isSelectedCell = index == selectedIndex
                     val isInColumn = index in columnIndices
                     val isInRow = index in rowIndices
                     val isInSquare = index in squareIndices
@@ -79,18 +79,33 @@ fun Grid(modifier: Modifier = Modifier, sudokuViewModel: SudokuViewModel = viewM
                                 },
                             contentAlignment = Alignment.Center
                         ) {
-                            Text(
-                                text = cell.value?.toString() ?: "",
-                                color = when {
-                                    isSelectedCell -> Color.White
-                                    cell.isFixed -> Color.Black
-                                    cell.isCorrect == true -> Color(0xFF4CAF50)
-                                    cell.isCorrect == false -> Color(0xFFF44336)
-                                    else -> Color(0xFF1976D2)
-                                },
-                                fontSize = 20.sp,
-                                fontWeight = if (cell.isFixed) FontWeight.Bold else FontWeight.Normal
-                            )
+                            if (cell.value != null) {
+                                Text(
+                                    text = cell.value.toString(),
+                                    color = when {
+                                        isSelectedCell -> Color.White
+                                        cell.isFixed -> Color.Black
+                                        cell.isCorrect == true -> Color(0xFF4CAF50)
+                                        cell.isCorrect == false -> Color(0xFFF44336)
+                                        else -> Color(0xFF1976D2)
+                                    },
+                                    fontSize = 20.sp,
+                                    fontWeight = if (cell.isFixed) FontWeight.Bold else FontWeight.Normal
+                                )
+                            } else if (cell.notes.isNotEmpty()) {
+                                Column(
+                                    modifier = Modifier.fillMaxSize(),
+                                    verticalArrangement = Arrangement.Top,
+                                    horizontalAlignment = Alignment.CenterHorizontally
+                                ) {
+                                    Text(
+                                        text = cell.notes.sorted().joinToString(" "),
+                                        color = Color(0xFFBDBDBD), // Light grey
+                                        fontSize = 10.sp,
+                                        fontWeight = FontWeight.Normal
+                                    )
+                                }
+                            }
                         }
                     }
                 }

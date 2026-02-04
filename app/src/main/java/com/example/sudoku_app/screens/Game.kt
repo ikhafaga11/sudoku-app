@@ -22,6 +22,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.sudoku_app.components.Grid
 import com.example.sudoku_app.components.NumberPad
 import com.example.sudoku_app.viewmodel.SudokuViewModel
+import com.example.sudoku_app.components.NotesToggle
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.navigation.NavController
@@ -109,6 +110,7 @@ fun GameScreen(
             .weight(1.5f)
             .padding(top = 16.dp)) {
             NumberPad(sudokuViewModel = sudokuViewModel)
+            NotesToggle(sudokuViewModel = sudokuViewModel)
         }
     }
 }
