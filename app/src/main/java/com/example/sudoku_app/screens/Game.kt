@@ -3,6 +3,7 @@ package com.example.sudoku_app.screens
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -110,7 +111,10 @@ fun GameScreen(
             .weight(1.5f)
             .padding(top = 16.dp)) {
             NumberPad(sudokuViewModel = sudokuViewModel)
-            NotesToggle(sudokuViewModel = sudokuViewModel)
+            NotesToggle(
+                modifier = Modifier.fillMaxWidth(),
+                sudokuViewModel = sudokuViewModel
+            )
         }
     }
 }

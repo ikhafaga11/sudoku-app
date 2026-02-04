@@ -30,7 +30,7 @@ fun NotesToggle(
         modifier = modifier
             .padding(end = 16.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.spacedBy(8.dp)
+        verticalArrangement = Arrangement.Center
     ) {
         Text(
             text = "Notes",
