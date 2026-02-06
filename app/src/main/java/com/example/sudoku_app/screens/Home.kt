@@ -14,6 +14,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -22,6 +23,7 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.sudoku_app.R
 import com.example.sudoku_app.viewmodel.SudokuViewModel
+import kotlinx.coroutines.launch
 
 
 @Composable
@@ -31,6 +33,7 @@ fun HomeScreen(
     sudokuViewModel: SudokuViewModel = viewModel()
 ) {
     val state by sudokuViewModel.uiState.collectAsState()
+    val coroutineScope = rememberCoroutineScope()
     Column(
         modifier = modifier.fillMaxSize(),
         verticalArrangement = Arrangement.Center,
@@ -40,6 +43,24 @@ fun HomeScreen(
             Text(stringResource(R.string.homepage_heading))
         }
         Spacer(modifier = modifier.height(32.dp))
+        if (state.hasActiveGame) {
+            Button(
+                onClick = {
+                    coroutineScope.launch {
+                        sudokuViewModel.resumeGame()
+                        onGameStart()
+                    }
+                },
+                modifier = Modifier.padding(bottom = 16.dp)
+            ) {
+                Text("Resume Game")
+            }
+            Text(
+                text = "- OR -",
+                fontSize = 14.sp,
+                modifier = Modifier.padding(bottom = 16.dp)
+            )
+        }
 
         Column(
             modifier = Modifier
