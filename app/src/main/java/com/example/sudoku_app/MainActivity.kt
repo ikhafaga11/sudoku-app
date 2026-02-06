@@ -13,6 +13,8 @@ import com.example.sudoku_app.screens.GameScreen
 import com.example.sudoku_app.screens.HomeScreen
 import com.example.sudoku_app.ui.theme.SudokuappTheme
 import com.example.sudoku_app.viewmodel.SudokuViewModel
+import androidx.compose.ui.platform.LocalContext
+import com.example.sudoku_app.viewmodel.SudokuViewModelFactory
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -29,7 +31,10 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun App() {
     val navController = rememberNavController()
-    val sudokuViewModel: SudokuViewModel = viewModel()
+    val context = LocalContext.current
+    val sudokuViewModel: SudokuViewModel = viewModel(
+        factory = SudokuViewModelFactory(context.applicationContext)
+    )
     NavHost(navController = navController, startDestination = "home") {
         composable(route = "home") {
             HomeScreen(onGameStart = {

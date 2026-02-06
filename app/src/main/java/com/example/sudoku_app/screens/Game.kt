@@ -26,6 +26,7 @@ import com.example.sudoku_app.viewmodel.SudokuViewModel
 import com.example.sudoku_app.components.NotesToggle
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
+import androidx.compose.runtime.DisposableEffect
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 
@@ -37,6 +38,11 @@ fun GameScreen(
     sudokuViewModel: SudokuViewModel = viewModel()
 ) {
     val state by sudokuViewModel.uiState.collectAsState()
+
+    DisposableEffect(Unit) {
+        onDispose {}
+    } // so it saves when the user closes the app
+
     if (state.isComplete) {
         AlertDialog(
             onDismissRequest = {},
