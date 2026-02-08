@@ -6,8 +6,10 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.material3.Text
@@ -42,7 +44,6 @@ fun Grid(modifier: Modifier = Modifier, sudokuViewModel: SudokuViewModel = viewM
             }
         }
     }
-
     Column(modifier = modifier.background(Color.White)) {
         Box(
             Modifier
@@ -50,56 +51,55 @@ fun Grid(modifier: Modifier = Modifier, sudokuViewModel: SudokuViewModel = viewM
                 .fillMaxSize(),
             contentAlignment = Alignment.Center
         ) {
-            LazyVerticalGrid(
+            Column(
                 modifier = modifier.matchParentSize(),
-                verticalArrangement = Arrangement.Center,
-                columns = GridCells.Fixed(9)
             ) {
-                flattenedBoard.forEachIndexed { index, cell ->
-                    val isSelectedCell = index == selectedIndex
-                    val isInColumn = index in columnIndices
-                    val isInRow = index in rowIndices
-                    val isInSquare = index in squareIndices
-                    val isFlashing = index == flashingIndex
-                    items(1) {
-                        Box(
-                            modifier = modifier
-                                .aspectRatio(1f)
-                                .background(
-                                    when {
-                                        isFlashing -> Color(0xFFF44336)
-                                        isSelectedCell -> Color.Black
-                                        isInColumn -> Color.LightGray
-                                        isInRow -> Color.LightGray
-                                        isInSquare -> Color.LightGray
-                                        else -> Color.Transparent
+                for (row in 0 until 9) {
+                    Row(
+                        modifier = Modifier.weight(1f),
+                    ) {
+                        for (col in 0 until 9) {
+                            val index = row * 9 + col
+                            val cell = board.cells[row][col]
+                            val isSelectedCell = index == selectedIndex
+                            val isInColumn = index in columnIndices
+                            val isInRow = index in rowIndices
+                            val isInSquare = index in squareIndices
+                            val isFlashing = index == flashingIndex
 
-                                    }
-                                )
-                                .clickable {
-                                    sudokuViewModel.onSelectedIndex(index)
-                                },
-                            contentAlignment = Alignment.Center
-                        ) {
-                            if (cell.value != null) {
-                                Text(
-                                    text = cell.value.toString(),
-                                    color = when {
-                                        isSelectedCell -> Color.White
-                                        cell.isFixed -> Color.Black
-                                        cell.isCorrect == true -> Color(0xFF4CAF50)
-                                        cell.isCorrect == false -> Color(0xFFF44336)
-                                        else -> Color(0xFF1976D2)
+                            Box(
+                                modifier = Modifier
+                                    .weight(1f)
+                                    .aspectRatio(1f)
+                                    .background(
+                                        when {
+                                            isFlashing -> Color(0xFFF44336)
+                                            isSelectedCell -> Color.Black
+                                            isInColumn -> Color.LightGray
+                                            isInRow -> Color.LightGray
+                                            isInSquare -> Color.LightGray
+                                            else -> Color.Transparent
+                                        }
+                                    )
+                                    .clickable {
+                                        sudokuViewModel.onSelectedIndex(index)
                                     },
-                                    fontSize = 20.sp,
-                                    fontWeight = if (cell.isFixed) FontWeight.Bold else FontWeight.Normal
-                                )
-                            } else if (cell.notes.isNotEmpty()) {
-                                Column(
-                                    modifier = Modifier.fillMaxSize(),
-                                    verticalArrangement = Arrangement.Top,
-                                    horizontalAlignment = Alignment.CenterHorizontally
-                                ) {
+                                contentAlignment = Alignment.Center
+                            ) {
+                                if (cell.value != null) {
+                                    Text(
+                                        text = cell.value.toString(),
+                                        color = when {
+                                            isSelectedCell -> Color.White
+                                            cell.isFixed -> Color.Black
+                                            cell.isCorrect == true -> Color(0xFF4CAF50)
+                                            cell.isCorrect == false -> Color(0xFFF44336)
+                                            else -> Color(0xFF1976D2)
+                                        },
+                                        fontSize = 20.sp,
+                                        fontWeight = if (cell.isFixed) FontWeight.Bold else FontWeight.Normal
+                                    )
+                                } else if (cell.notes.isNotEmpty()) {
                                     Text(
                                         text = cell.notes.sorted().joinToString(" "),
                                         color = when {
@@ -127,8 +127,6 @@ fun Grid(modifier: Modifier = Modifier, sudokuViewModel: SudokuViewModel = viewM
                 for (i in 0..9) {
                     val x = i * cellSize
                     val strokeWidth: Float = if (i % 3 == 0) 4.dp.toPx() else 1.dp.toPx()
-
-
                     drawLine(
                         start = Offset(x = x, y = 0F),
                         end = Offset(x = x, y = canvasHeight),
@@ -137,15 +135,13 @@ fun Grid(modifier: Modifier = Modifier, sudokuViewModel: SudokuViewModel = viewM
 
                     )
                 }
-
+                // draw horizontal lines
                 for (i in 0..9) {
                     val y = i * cellSize
                     val strokeWidth = if (i % 3 == 0) 4.dp.toPx() else 1.dp.toPx()
-
-
                     drawLine(
-                        start = Offset(x = canvasWidth, y = y),
-                        end = Offset(x = 0F, y = y),
+                        start = Offset(x = 0F, y = y),
+                        end = Offset(x = canvasWidth, y = y),
                         color = Color.Black,
                         strokeWidth = strokeWidth
 

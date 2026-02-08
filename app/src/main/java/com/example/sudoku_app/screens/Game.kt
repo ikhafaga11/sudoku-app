@@ -43,7 +43,7 @@ fun GameScreen(
         onDispose {}
     } // so it saves when the user closes the app
 
-    if (state.isComplete) {
+    if (state.isComplete && state.showCompletionDialog) {
         AlertDialog(
             onDismissRequest = {},
             title = {
@@ -57,13 +57,23 @@ fun GameScreen(
                 )
             },
             confirmButton = {
-                Button(onClick = {navController.popBackStack()}) {
+                Button(onClick = {
+                    sudokuViewModel.clearSavedGame()
+                    navController.popBackStack()
+                }) {
                     Text("Back to homepage")
+                }
+            },
+            dismissButton = {
+                Button(onClick = {
+                    sudokuViewModel.dismissCompletionDialog()
+                }) {
+                    Text("View board")
                 }
             }
         )
     }
-    if (state.isGameOver) {
+    if (state.isGameOver && state.showCompletionDialog) {
         AlertDialog(
             onDismissRequest = {},
             title = {
@@ -77,8 +87,18 @@ fun GameScreen(
                 )
             },
             confirmButton = {
-                Button(onClick = { navController.popBackStack() }) {
+                Button(onClick = {
+                    sudokuViewModel.clearSavedGame()
+                    navController.popBackStack()
+                }) {
                     Text("Back to Homepage")
+                }
+            },
+            dismissButton = {
+                Button(onClick = {
+                    sudokuViewModel.dismissCompletionDialog()
+                }) {
+                    Text("View board")
                 }
             }
         )
