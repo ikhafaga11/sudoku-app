@@ -29,7 +29,8 @@ data class GameUIState(
     val hasActiveGame: Boolean = false,
     var lives: Int = 3,
     val flashingIndex: Int?= null,
-    val isGameOver: Boolean = false
+    val isGameOver: Boolean = false,
+    val showCompletionDialog: Boolean = false
     )
 
 class SudokuViewModel(val gameStateManager: GameStateManager) : ViewModel() {
@@ -152,7 +153,8 @@ class SudokuViewModel(val gameStateManager: GameStateManager) : ViewModel() {
         stopTimer()
         _uiState.value = _uiState.value.copy(
             board = newBoard,
-            isComplete = true
+            isComplete = true,
+            showCompletionDialog = true
         )
     } // only for debugging, comment out eventually
 
@@ -190,7 +192,8 @@ class SudokuViewModel(val gameStateManager: GameStateManager) : ViewModel() {
             }
             _uiState.value = _uiState.value.copy(
                 board = newBoard,
-                isComplete = isComplete
+                isComplete = isComplete,
+                showCompletionDialog = isComplete
             )
             if (!isComplete){
                 saveGameState()
@@ -198,7 +201,11 @@ class SudokuViewModel(val gameStateManager: GameStateManager) : ViewModel() {
         }
     } // enter a number (1-9) in a cell at the specified index if cell is empty OR add a note if toggled on
 
-    fun triggerErrorFlash(index: Int) {
+    fun dismissCompletionDialog(){
+        _uiState.value = _uiState.value.copy(showCompletionDialog = false)
+    }
+
+    fun triggerFlash(index: Int) {
         val row = index / 9
         val col = index % 9
         val currentBoard = _uiState.value.board
