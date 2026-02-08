@@ -80,7 +80,8 @@ class SudokuViewModel(val gameStateManager: GameStateManager) : ViewModel() {
             squareIndexList = emptyList(),
             elapsedTime = 0,
             isComplete = false,
-            lives = 3
+            lives = 3,
+            isGameOver = false
         )
         startTimer()
     } // generate new board with current difficulty setting
