@@ -199,13 +199,19 @@ class SudokuViewModel(val gameStateManager: GameStateManager) : ViewModel() {
     } // enter a number (1-9) in a cell at the specified index if cell is empty OR add a note if toggled on
 
     fun triggerFlash(index: Int) {
+        val row = index / 9
+        val col = index % 9
+        val currentBoard = _uiState.value.board
+        var cell = currentBoard.cells[row][col]
         viewModelScope.launch{
+            cell.isFixed = true
             repeat(2) {
                 _uiState.value = _uiState.value.copy(flashingIndex = index)
                 delay(200)
                 _uiState.value = _uiState.value.copy(flashingIndex = null)
                 delay(200)
             }
+            cell.isFixed = false
             val newBoard = _uiState.value.board.copy()
             val gameOver = _uiState.value.lives <= 0
             if(gameOver){
