@@ -205,7 +205,7 @@ class SudokuViewModel(val gameStateManager: GameStateManager) : ViewModel() {
         _uiState.value = _uiState.value.copy(showCompletionDialog = false)
     }
 
-    fun triggerFlash(index: Int) {
+    fun triggerErrorFlash(index: Int) {
         val row = index / 9
         val col = index % 9
         val currentBoard = _uiState.value.board
