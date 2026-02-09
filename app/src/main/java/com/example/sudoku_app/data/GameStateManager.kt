@@ -26,7 +26,8 @@ data class SavedGameState(
     val difficultyLabel: String,
     val clueCount: Int,
     val elapsedTime: Int,
-    val notesMode: Boolean
+    val notesMode: Boolean,
+    val lives: Int
 )
 
 class GameStateManager(private val context: Context) {
@@ -44,7 +45,8 @@ class GameStateManager(private val context: Context) {
         difficultyLabel: String,
         clueCount: Int,
         elapsedTime: Int,
-        notesMode: Boolean
+        notesMode: Boolean,
+        lives: Int
     ) {
         val savedState = SavedGameState(
             boardCells = board.cells,
@@ -53,7 +55,8 @@ class GameStateManager(private val context: Context) {
             difficultyLabel = difficultyLabel,
             clueCount = clueCount,
             elapsedTime = elapsedTime,
-            notesMode = notesMode
+            notesMode = notesMode,
+            lives = lives
         )
         val jsonString = Json.encodeToString(savedState)
         context.dataStore.edit { preferences ->

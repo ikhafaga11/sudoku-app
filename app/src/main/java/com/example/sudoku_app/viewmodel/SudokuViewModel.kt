@@ -102,6 +102,7 @@ class SudokuViewModel(val gameStateManager: GameStateManager) : ViewModel() {
             clueCount = savedState.clueCount,
             elapsedTime = savedState.elapsedTime,
             notesMode = savedState.notesMode,
+            lives = savedState.lives,
             selectedIndex = null,
             columnIndexList = emptyList(),
             rowIndexList = emptyList(),
@@ -131,7 +132,8 @@ class SudokuViewModel(val gameStateManager: GameStateManager) : ViewModel() {
                 difficultyLabel = _uiState.value.difficultyLabel,
                 clueCount = _uiState.value.clueCount,
                 elapsedTime = _uiState.value.elapsedTime,
-                notesMode = _uiState.value.notesMode
+                notesMode = _uiState.value.notesMode,
+                lives = _uiState.value.lives
             )
         }
     }
