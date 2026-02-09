@@ -189,7 +189,7 @@ class SudokuViewModel(val gameStateManager: GameStateManager) : ViewModel() {
                 }
                 if (cell.isCorrect == false) {
                     _uiState.value = _uiState.value.copy(lives = _uiState.value.lives - 1)
-                    triggerFlash(index)
+                    triggerErrorFlash(index)
                     return
                 }
             }
