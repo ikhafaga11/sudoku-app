@@ -3,11 +3,13 @@ package com.example.sudoku_app.screens
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.systemBarsPadding
+import androidx.compose.foundation.layout.width
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -57,20 +59,31 @@ fun GameScreen(
                 )
             },
             confirmButton = {
-                Button(onClick = {
-                    sudokuViewModel.clearSavedGame()
-                    navController.popBackStack()
-                }) {
-                    Text("Back to homepage")
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.Center
+                ) {
+                    Button(
+                        onClick = {
+                            sudokuViewModel.dismissCompletionDialog()
+                        },
+                        modifier = Modifier.width(140.dp)
+                    ) {
+                        Text("View board")
+                    }
+                    Spacer(modifier = Modifier.width(8.dp))
+                    Button(
+                        onClick = {
+                            sudokuViewModel.clearSavedGame()
+                            navController.popBackStack()
+                        },
+                        modifier = Modifier.width(140.dp)
+                    ) {
+                        Text("Back to homepage")
+                    }
                 }
             },
-            dismissButton = {
-                Button(onClick = {
-                    sudokuViewModel.dismissCompletionDialog()
-                }) {
-                    Text("View board")
-                }
-            }
+            dismissButton = {}
         )
     }
     if (state.isGameOver && state.showCompletionDialog) {
@@ -87,20 +100,31 @@ fun GameScreen(
                 )
             },
             confirmButton = {
-                Button(onClick = {
-                    sudokuViewModel.clearSavedGame()
-                    navController.popBackStack()
-                }) {
-                    Text("Back to Homepage")
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.Center
+                ) {
+                    Button(
+                        onClick = {
+                            sudokuViewModel.dismissCompletionDialog()
+                        },
+                        modifier = Modifier.width(140.dp)
+                    ) {
+                        Text("View board")
+                    }
+                    Spacer(modifier = Modifier.width(8.dp))
+                    Button(
+                        onClick = {
+                            sudokuViewModel.clearSavedGame()
+                            navController.popBackStack()
+                        },
+                        modifier = Modifier.width(140.dp)
+                    ) {
+                        Text("Back to Homepage")
+                    }
                 }
             },
-            dismissButton = {
-                Button(onClick = {
-                    sudokuViewModel.dismissCompletionDialog()
-                }) {
-                    Text("View board")
-                }
-            }
+            dismissButton = {}
         )
     }
     Column(
