@@ -80,6 +80,7 @@ fun Grid(modifier: Modifier = Modifier, sudokuViewModel: SudokuViewModel = viewM
                                     .background(
                                         when {
                                             isFlashing -> Color(0xFFF44336)
+                                            isInCompletion -> Color(0xFF4CAF50).copy(alpha = completionAlpha)
                                             isSelectedCell -> Color.Black
                                             isInColumn -> Color.LightGray
                                             isInRow -> Color.LightGray

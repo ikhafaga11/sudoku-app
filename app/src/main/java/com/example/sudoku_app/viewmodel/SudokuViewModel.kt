@@ -36,7 +36,8 @@ data class GameUIState(
 
 data class CompletionHighlight(
     val indices: List<Int>,
-    val progress: Float = 0f
+    val progress: Float = 0f,
+    val sourceIndex: Int
 )
 
 class SudokuViewModel(val gameStateManager: GameStateManager) : ViewModel() {
@@ -310,6 +311,14 @@ class SudokuViewModel(val gameStateManager: GameStateManager) : ViewModel() {
         }
     }
 
+    fun getCellDistance(index1: Int, index2: Int): Int {
+        val row1 = index1 / 9
+        val col1 = index1 % 9
+        val row2 = index2 / 9
+        val col2 = index2 % 9
+        return kotlin.math.abs(row1-row2) + kotlin.math.abs(col1-col2)
+    }
+
     fun triggerCompletionRipple(index: Int, board: SudokuBoard) {
         val row = index / 9
         val col = index % 9
@@ -320,25 +329,34 @@ class SudokuViewModel(val gameStateManager: GameStateManager) : ViewModel() {
             completedIndices.addAll((0 until 9).map{row * 9 + it})
         }
         if (isColumnComplete(col, board)) {
-            completedIndices.addAll((0 until 9).map { it * 9 + col })
+            completedIndices.addAll((0 until 9).map {it * 9 + col})
         }
         if(isSquareComplete(squareRow, squareCol, board)) {
             completedIndices.addAll(getSquareIndices(squareRow, squareCol))
         }
         if(completedIndices.isNotEmpty()) {
             viewModelScope.launch {
-                val steps = 20
+                val sourceRow = index / 9
+                val sourceCol = index % 9
+                val maxDistance = completedIndices.maxOf { cellIndex ->
+                    val cellRow = cellIndex / 9
+                    val cellCol = cellIndex % 9
+                    kotlin.math.abs(cellRow - sourceRow) + kotlin.math.abs(cellCol - sourceCol)
+                }.toFloat()
+
+                val steps = 30
                 for(step in 0..steps){
                     val progress = step.toFloat() / steps
                     _uiState.value = _uiState.value.copy(
                         completionHighlight = CompletionHighlight(
                             indices = completedIndices.distinct(),
-                            progress = progress
+                            progress = progress,
+                            sourceIndex = index
                         )
                     )
-                    delay(30)
+                    delay(25)
                 }
-                delay(500)
+                delay(400)
                 _uiState.value = _uiState.value.copy(completionHighlight = null)
             }
         }
