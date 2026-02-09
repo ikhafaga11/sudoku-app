@@ -328,7 +328,7 @@ class SudokuViewModel(val gameStateManager: GameStateManager) : ViewModel() {
         }
         if(completedIndices.isNotEmpty()) {
             viewModelScope.launch {
-                val steps = 35
+                val steps = 30
                 for(step in 0..steps){
                     val progress = step.toFloat() / steps
                     _uiState.value = _uiState.value.copy(

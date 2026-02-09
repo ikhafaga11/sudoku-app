@@ -20,6 +20,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Shadow
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -122,6 +123,7 @@ fun Grid(modifier: Modifier = Modifier, sudokuViewModel: SudokuViewModel = viewM
                                     Text(
                                         text = cell.value.toString(),
                                         color = when {
+                                            isInCompletion && !cell.isFixed -> Color(0xFF4CAF50)
                                             isSelectedCell -> Color.White
                                             cell.isFixed -> Color.Black
                                             cell.isCorrect == true -> Color(0xFF4CAF50)
