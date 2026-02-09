@@ -344,7 +344,7 @@ class SudokuViewModel(val gameStateManager: GameStateManager) : ViewModel() {
                     kotlin.math.abs(cellRow - sourceRow) + kotlin.math.abs(cellCol - sourceCol)
                 }.toFloat()
 
-                val steps = 30
+                val steps = 35
                 for(step in 0..steps){
                     val progress = step.toFloat() / steps
                     _uiState.value = _uiState.value.copy(
@@ -356,7 +356,6 @@ class SudokuViewModel(val gameStateManager: GameStateManager) : ViewModel() {
                     )
                     delay(25)
                 }
-                delay(400)
                 _uiState.value = _uiState.value.copy(completionHighlight = null)
             }
         }

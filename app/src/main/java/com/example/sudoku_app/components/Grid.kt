@@ -68,7 +68,7 @@ fun Grid(modifier: Modifier = Modifier, sudokuViewModel: SudokuViewModel = viewM
                             val isInSquare = index in squareIndices
                             val isFlashing = index == flashingIndex
                             val isInCompletion = completionHighlight?.indices?.contains(index) == true
-                            val completionAlpha = if (isInCompletion) {
+                            val completionAlpha = if (isInCompletion && completionHighlight != null) {
                                 val sourceRow = completionHighlight.sourceIndex / 9
                                 val sourceCol = completionHighlight.sourceIndex % 9
                                 val cellRow = index / 9
@@ -80,14 +80,18 @@ fun Grid(modifier: Modifier = Modifier, sudokuViewModel: SudokuViewModel = viewM
                                     kotlin.math.abs(r - sourceRow) + kotlin.math.abs(c - sourceCol)
                                 }.toFloat()
                                 val normalizedDistance = if (maxDistance > 0) distance.toFloat() / maxDistance else 0f
-                                val rippleStart = normalizedDistance
-                                val rippleEnd = normalizedDistance + 0.3f
-
+                                val rippleStart = normalizedDistance * 0.7f
+                                val rippleWidth = 0.25f
+                                val rippleEnd = rippleStart + rippleWidth
                                 when {
                                     completionHighlight.progress < rippleStart -> 0f
-                                    completionHighlight.progress > rippleEnd -> 0.2f
+                                    completionHighlight.progress > rippleEnd -> {
+                                        val fadeProgress = (completionHighlight.progress - rippleEnd) / (1.0f - rippleEnd)
+                                        val fadeAlpha = 0.3f * (1f - fadeProgress)
+                                        fadeAlpha.coerceAtLeast(0f)
+                                    }
                                     else -> {
-                                        val localProgress = (completionHighlight.progress - rippleStart) / 0.3f
+                                        val localProgress = (completionHighlight.progress - rippleStart) / rippleWidth
                                         val wave = kotlin.math.sin(localProgress * Math.PI).toFloat()
                                         0.4f + (wave * 0.5f)
                                     }
