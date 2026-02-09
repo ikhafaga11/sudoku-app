@@ -317,7 +317,10 @@ class SudokuViewModel(val gameStateManager: GameStateManager) : ViewModel() {
         val squareCol = col / 3
         val completedIndices = mutableListOf<Int>()
         if(isRowComplete(row, board)) {
-            completedIndices.addAll((0 until 9).map{it * 9 + col})
+            completedIndices.addAll((0 until 9).map{row * 9 + it})
+        }
+        if (isColumnComplete(col, board)) {
+            completedIndices.addAll((0 until 9).map { it * 9 + col })
         }
         if(isSquareComplete(squareRow, squareCol, board)) {
             completedIndices.addAll(getSquareIndices(squareRow, squareCol))

@@ -37,6 +37,7 @@ fun Grid(modifier: Modifier = Modifier, sudokuViewModel: SudokuViewModel = viewM
     val rowIndices = state.rowIndexList
     val squareIndices = state.squareIndexList
     val flashingIndex = state.flashingIndex
+    val completionHighlight = state.completionHighlight
     val flattenedBoard = buildList {
         for (row in 0 until 9) {
             for (col in 0 until 9) {
@@ -66,6 +67,11 @@ fun Grid(modifier: Modifier = Modifier, sudokuViewModel: SudokuViewModel = viewM
                             val isInRow = index in rowIndices
                             val isInSquare = index in squareIndices
                             val isFlashing = index == flashingIndex
+                            val isInCompletion = completionHighlight?.indices?.contains(index) == true
+                            val completionAlpha = if (isInCompletion) {
+                                val pulse = kotlin.math.sin(completionHighlight.progress * Math.PI).toFloat()
+                                0.3f + (pulse * 0.4f)
+                            } else 0f
 
                             Box(
                                 modifier = Modifier
