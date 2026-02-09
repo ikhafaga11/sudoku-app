@@ -160,12 +160,12 @@ fun GameScreen(
                     fontSize = 24.sp,
                     fontWeight = FontWeight.Bold
                 )
-                Button(
-                    onClick = { sudokuViewModel.autoCompletePuzzle() },
-                    modifier = Modifier.padding(top = 8.dp)
-                ) {
-                    Text("Auto Complete (debugging)")
-                } // button is only for debugging purposes
+//                Button(
+//                    onClick = { sudokuViewModel.autoCompletePuzzle() },
+//                    modifier = Modifier.padding(top = 8.dp)
+//                ) {
+//                    Text("Auto Complete (debugging)")
+//                } // button is only for debugging purposes
             }
         }
         Row(

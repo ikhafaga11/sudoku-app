@@ -100,6 +100,7 @@ class SudokuViewModel(val gameStateManager: GameStateManager) : ViewModel() {
     } // shortcut function so we can set a new difficulty immediately and generate a new puzzle
 
     suspend fun resumeGame() {
+        stopTimer()
         val savedState = gameStateManager.loadGame() ?: return
         val restoredBoard = gameStateManager.restoreBoardFromSavedState(savedState)
         _uiState.value = _uiState.value.copy(
