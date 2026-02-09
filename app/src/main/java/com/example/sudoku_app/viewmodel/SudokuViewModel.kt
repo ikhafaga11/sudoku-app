@@ -311,14 +311,6 @@ class SudokuViewModel(val gameStateManager: GameStateManager) : ViewModel() {
         }
     }
 
-    fun getCellDistance(index1: Int, index2: Int): Int {
-        val row1 = index1 / 9
-        val col1 = index1 % 9
-        val row2 = index2 / 9
-        val col2 = index2 % 9
-        return kotlin.math.abs(row1-row2) + kotlin.math.abs(col1-col2)
-    }
-
     fun triggerCompletionRipple(index: Int, board: SudokuBoard) {
         val row = index / 9
         val col = index % 9
@@ -336,14 +328,6 @@ class SudokuViewModel(val gameStateManager: GameStateManager) : ViewModel() {
         }
         if(completedIndices.isNotEmpty()) {
             viewModelScope.launch {
-                val sourceRow = index / 9
-                val sourceCol = index % 9
-                val maxDistance = completedIndices.maxOf { cellIndex ->
-                    val cellRow = cellIndex / 9
-                    val cellCol = cellIndex % 9
-                    kotlin.math.abs(cellRow - sourceRow) + kotlin.math.abs(cellCol - sourceCol)
-                }.toFloat()
-
                 val steps = 35
                 for(step in 0..steps){
                     val progress = step.toFloat() / steps
