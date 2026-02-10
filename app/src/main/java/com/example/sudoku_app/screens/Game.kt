@@ -31,6 +31,7 @@ import androidx.compose.material3.Button
 import androidx.compose.runtime.DisposableEffect
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import com.example.sudoku_app.components.EraseButton
 
 
 @Composable
@@ -181,14 +182,30 @@ fun GameScreen(
 
         HorizontalDivider(thickness = 2.dp)
 
-        Row(modifier = modifier
-            .weight(1.5f)
-            .padding(top = 16.dp)) {
+        Row(
+            modifier = modifier
+                .weight(1.5f)
+                .padding(top = 16.dp)
+        ) {
             NumberPad(sudokuViewModel = sudokuViewModel)
-            NotesToggle(
-                modifier = Modifier.fillMaxWidth(),
-                sudokuViewModel = sudokuViewModel
-            )
+            Column(
+                modifier = Modifier.fillMaxHeight(),
+                verticalArrangement = Arrangement.SpaceBetween
+            ) {
+                NotesToggle(
+                    modifier = Modifier
+                        .weight(1f)
+                        .fillMaxWidth(),
+                    sudokuViewModel = sudokuViewModel
+                )
+                EraseButton(
+                    modifier = Modifier
+                        .weight(1f)
+                        .fillMaxWidth(),
+                    sudokuViewModel = sudokuViewModel
+                )
+                Spacer(modifier = Modifier.weight(0.3f))
+            }
         }
     }
 }
