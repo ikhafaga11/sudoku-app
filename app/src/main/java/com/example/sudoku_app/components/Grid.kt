@@ -129,7 +129,7 @@ fun Grid(modifier: Modifier = Modifier, sudokuViewModel: SudokuViewModel = viewM
                                             isInCompletion && !cell.isFixed -> Color(0xFF4CAF50)
                                             isSelectedCell -> Color.White
                                             cell.isFixed -> Color.Black
-                                            cell.isCorrect == true -> Color(0xFF4CAF50)
+                                            cell.isCorrect == true -> Color(0xFF388E3C)
                                             cell.isCorrect == false -> Color(0xFFF44336)
                                             else -> Color(0xFF1976D2)
                                         },
