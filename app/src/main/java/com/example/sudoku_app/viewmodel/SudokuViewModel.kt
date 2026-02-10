@@ -22,7 +22,7 @@ data class GameUIState(
     val board: SudokuBoard = SudokuBoard(),
     val difficulty: Int = 30,
     val difficultyLabel: String = "Easy",
-    val clueCount: Int = 33,
+    val clueCount: Int = 38,
     val elapsedTime: Int = 0,
     val isComplete: Boolean = false,
     val notesMode: Boolean = false,
@@ -122,6 +122,7 @@ class SudokuViewModel(val gameStateManager: GameStateManager) : ViewModel() {
     }
 
     fun clearSavedGame() {
+        if(uiState.value.isGameOver) return
         viewModelScope.launch {
             gameStateManager.clearSavedGame()
             _uiState.value = _uiState.value.copy(hasActiveGame = false)
@@ -170,6 +171,7 @@ class SudokuViewModel(val gameStateManager: GameStateManager) : ViewModel() {
 
 
     fun enterNumber(index: Int, number: Int) {
+        if(_uiState.value.isGameOver) return
         val row = index / 9
         val col = index % 9
         val currentBoard = _uiState.value.board
@@ -237,10 +239,17 @@ class SudokuViewModel(val gameStateManager: GameStateManager) : ViewModel() {
             if(gameOver){
                 stopTimer()
                 clearSavedGame()
+                _uiState.value = _uiState.value.copy(
+                    selectedIndex = null,
+                    rowIndexList = emptyList(),
+                    columnIndexList = emptyList(),
+                    squareIndexList = emptyList()
+                )
             }
             _uiState.value = _uiState.value.copy(
                 board = newBoard,
-                isGameOver = gameOver
+                isGameOver = gameOver,
+                showCompletionDialog = gameOver,
             )
             if(!gameOver) {
                 saveGameState()
@@ -455,6 +464,7 @@ class SudokuViewModel(val gameStateManager: GameStateManager) : ViewModel() {
     }
 
     fun onSelectedIndex(index: Int) {
+        if(_uiState.value.isGameOver) return
         if (_uiState.value.selectedIndex == null) {
             _uiState.value = _uiState.value.copy(
                 selectedIndex = index
