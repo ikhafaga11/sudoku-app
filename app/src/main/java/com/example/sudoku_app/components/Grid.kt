@@ -109,8 +109,8 @@ fun Grid(modifier: Modifier = Modifier, sudokuViewModel: SudokuViewModel = viewM
                                         when {
                                             isFlashing -> Color(0xFFF44336)
                                             isInCompletion -> Color(0xFF4CAF50).copy(alpha = completionAlpha)
-                                            isMatchingNumber -> Color(0xFFBBDEFB)
                                             isSelectedCell -> Color.Black
+                                            isMatchingNumber -> Color(0xFFBBDEFB)
                                             isInColumn -> Color.LightGray
                                             isInRow -> Color.LightGray
                                             isInSquare -> Color.LightGray

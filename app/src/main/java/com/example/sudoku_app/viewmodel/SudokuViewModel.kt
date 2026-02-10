@@ -196,6 +196,9 @@ class SudokuViewModel(val gameStateManager: GameStateManager) : ViewModel() {
                     triggerErrorFlash(index)
                     return
                 }
+                if(cell.isCorrect == true){
+                    clearNotesForNumber(index, number, currentBoard)
+                }
             }
             val newBoard = currentBoard.copy()
             val isComplete = checkIfComplete(newBoard)
@@ -239,6 +242,27 @@ class SudokuViewModel(val gameStateManager: GameStateManager) : ViewModel() {
         _uiState.value = _uiState.value.copy(
             matchingNumberIndices = matches
         )
+    }
+
+    fun clearNotesForNumber(index: Int, number: Int, board: SudokuBoard) {
+        val row = index / 9
+        val col = index % 9
+        val squareRow = row / 3
+        val squareCol = col / 3
+        for(r in 0 until 9){
+            for(c in 0 until 9) {
+                val cell = board.cells[r][c]
+                if(cell.isFixed || cell.value != null) continue
+                val sameRow = r == row
+                val sameCol = c == col
+                val sameSquare = (r / 3 == squareRow && c / 3 == squareCol)
+                if(sameRow || sameCol || sameSquare) {
+                    if(cell.notes.contains(number)){
+                        cell.notes = cell.notes - number
+                    }
+                }
+            }
+        }
     }
 
     fun dismissCompletionDialog(){
