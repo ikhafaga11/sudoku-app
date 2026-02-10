@@ -2,7 +2,6 @@ package com.example.sudoku_app.components
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.FlowRow
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -15,7 +14,7 @@ import androidx.compose.ui.unit.dp
 import com.example.sudoku_app.R
 
 @Composable
-fun OptionBar(modifier: Modifier = Modifier) {
+fun NotesMode(modifier: Modifier = Modifier) {
     FlowRow(
 //        modifier = modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.End,
@@ -33,11 +32,10 @@ fun OptionBar(modifier: Modifier = Modifier) {
 
     }
 }
-
 @Preview(showBackground = true)
 @Composable
 fun PreviewPencil() {
-    OptionBar()
+    NotesMode()
 }
 
 
